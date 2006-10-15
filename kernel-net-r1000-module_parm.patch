@@ -1,0 +1,15 @@
+--- r1000_v1.04/src/r1000_n.c~	2006-10-14 21:40:29.092148500 +0000
++++ r1000_v1.04/src/r1000_n.c	2006-10-14 21:40:45.805193000 +0000
+@@ -48,9 +48,9 @@ static struct pci_device_id r1000_pci_tb
+ MODULE_DEVICE_TABLE (pci, r1000_pci_tbl);
+ MODULE_AUTHOR ("Realtek");
+ MODULE_DESCRIPTION ("Linux device driver for Realtek Ethernet Controllers");
+-MODULE_PARM (speed, "1-" __MODULE_STRING(MAX_UNITS) "i");
+-MODULE_PARM (duplex, "1-" __MODULE_STRING(MAX_UNITS) "i");
+-MODULE_PARM (autoneg, "1-" __MODULE_STRING(MAX_UNITS) "i");
++module_param(speed, int, 0400);
++module_param(duplex, int, 0400);
++module_param(autoneg, int, 0400);
+ MODULE_LICENSE("GPL");
+ 
+ 
