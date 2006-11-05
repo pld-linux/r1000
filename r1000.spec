@@ -6,7 +6,7 @@
 #
 %define		_rel	1
 Summary:	RTL8111B/RTL8168B/RTL8111/RTL8168 driver for Linux
-Summary(pl):	Sterownik do kart RTL8111B/RTL8168B/RTL8111/RTL8168
+Summary(pl):	Sterownik dla Linuksa do kart RTL8111B/RTL8168B/RTL8111/RTL8168
 Name:		kernel-net-r1000
 Version:	1.04
 Release:	%{_rel}@%{_kernel_ver_str}
@@ -36,7 +36,7 @@ Realtek RTL8111B/RTL8168B/RTL8111/RTL8168.
 
 %package -n kernel-smp-net-r1000
 Summary:	RTL8111B/RTL8168B/RTL8111/RTL8168 driver for Linux SMP
-Summary(pl):	Sterownik do kart RTL8111B/RTL8168B/RTL8111/RTL8168
+Summary(pl):	Sterownik dla Linuksa SMP do kart RTL8111B/RTL8168B/RTL8111/RTL8168
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
