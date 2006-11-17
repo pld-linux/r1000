@@ -17,7 +17,7 @@ Source0:	ftp://202.65.194.18/cn/nic/r1000_v%{version}.tgz
 Patch0:		%{name}-module_parm.patch
 URL:		http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&PNid=5&PFid=5&Level=5&Conn=4&DownTypeID=3&GetDown=false#RTL8111B/RTL8168B/RTL8111/RTL8168
 %{?with_dist_kernel:BuildRequires:	kernel-module-build >= 3:2.6.7}
-BuildRequires:	rpmbuild(macros) >= 1.211
+BuildRequires:	rpmbuild(macros) >= 1.330
 Requires(post,postun):	/sbin/depmod
 %if %{with dist_kernel}
 %requires_releq_kernel_up
@@ -61,56 +61,12 @@ Realtek RTL8111B/RTL8168B/RTL8111/RTL8168.
 %build
 cd src
 mv Makefile{_linux26x,}
-for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}; do
-	if [ ! -r "%{_kernelsrcdir}/config-$cfg" ]; then
-		exit 1
-	fi
-	rm -rf o
-	install -d o/include/{linux,config}
-	ln -sf %{_kernelsrcdir}/config-$cfg o/.config
-	ln -sf %{_kernelsrcdir}/Module.symvers-$cfg o/Module.symvers
-	ln -sf %{_kernelsrcdir}/include/linux/autoconf-$cfg.h o/include/linux/autoconf.h
-%ifarch ppc
-	if [ -d "%{_kernelsrcdir}/include/asm-powerpc" ]; then
-		install -d o/include/asm
-		cp -a %{_kernelsrcdir}/include/asm-%{_target_base_arch}/* o/include/asm
-		cp -a %{_kernelsrcdir}/include/asm-powerpc/* o/include/asm
-	else
-		ln -sf %{_kernelsrcdir}/include/asm-%{_target_base_arch} o/include/asm
-	fi
-%else
-	ln -sf %{_kernelsrcdir}/include/asm-%{_target_base_arch} o/include/asm
-%endif
-
-	%{__make} -C %{_kernelsrcdir} O=$PWD/o prepare scripts
-	%{__make} -C %{_kernelsrcdir} clean \
-		RCS_FIND_IGNORE="-name '*.ko' -o" \
-		M=$PWD O=$PWD/o \
-		%{?with_verbose:V=1}
-	%{__make} -C %{_kernelsrcdir} modules \
-%if "%{_target_base_arch}" != "%{_arch}"
-		ARCH=%{_target_base_arch} \
-		CROSS_COMPILE=%{_target_cpu}-pld-linux- \
-%endif
-		HOSTCC="%{__cc}" \
-		M=$PWD O=$PWD/o \
-		%{?with_verbose:V=1}
-
-	mv r1000{,-$cfg}.ko
-done
+%build_kernel_modules -m r1000
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}{,smp}/kernel/drivers/net
-cd src
-install r1000-%{?with_dist_kernel:up}%{!?with_dist_kernel:nondist}.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/kernel/drivers/net/r1000.ko
-%if %{with smp} && %{with dist_kernel}
-install r1000-smp.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/drivers/net/r1000.ko
-%endif
-cd ..
+%install_kernel_modules -m src/r1000 -d kernel/drivers/net
 
 %clean
 rm -rf $RPM_BUILD_ROOT
