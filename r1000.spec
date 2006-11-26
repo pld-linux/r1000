@@ -59,9 +59,8 @@ Realtek RTL8111B/RTL8168B/RTL8111/RTL8168.
 %patch0 -p1
 
 %build
-cd src
-mv Makefile{_linux26x,}
-%build_kernel_modules -m r1000
+mv src/Makefile{_linux26x,}
+%build_kernel_modules -m r1000 -C src
 
 %install
 rm -rf $RPM_BUILD_ROOT
