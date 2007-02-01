@@ -1,4 +1,7 @@
 #
+# TODO:
+# - change filename to r1000.spec in CVS
+# - check patch0 MODULE_PARM (...) -> module_param (...)
 # Conditional build:
 %bcond_without	dist_kernel	# allow non-distribution kernel
 %bcond_without	smp		# don't build SMP module
@@ -9,13 +12,13 @@
 Summary:	RTL8111B/RTL8168B/RTL8111/RTL8168 driver for Linux
 Summary(pl):	Sterownik dla Linuksa do kart RTL8111B/RTL8168B/RTL8111/RTL8168
 Name:		kernel%{_alt_kernel}-net-r1000
-Version:	1.04
+Version:	1.05
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
-Source0:	ftp://202.65.194.18/cn/nic/r1000_v%{version}.tgz
-# Source0-md5:	95ffba4436fbb866a7e68809eac3bfb9
-Patch0:		%{_name}-module_parm.patch
+Source0:	ftp://202.65.194.211/cn/nic/r1000_v%{version}.tgz
+# Source0-md5:	4120f50c55b38b67e5dc741f86a1923a
+# Patch0:		%{_name}-module_parm.patch
 URL:		http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&PNid=5&PFid=5&Level=5&Conn=4&DownTypeID=3&GetDown=false#RTL8111B/RTL8168B/RTL8111/RTL8168
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.7}
 BuildRequires:	rpmbuild(macros) >= 1.330
@@ -57,10 +60,9 @@ Realtek RTL8111B/RTL8168B/RTL8111/RTL8168.
 
 %prep
 %setup -q -n r1000_v%{version}
-%patch0 -p1
+#%%patch0 -p1
 
 %build
-mv src/Makefile{_linux26x,}
 %build_kernel_modules -m r1000 -C src
 
 %install
