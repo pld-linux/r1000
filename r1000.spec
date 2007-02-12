@@ -10,7 +10,7 @@
 %define		_name	kernel-net-r1000
 %define		_rel	1
 Summary:	RTL8111B/RTL8168B/RTL8111/RTL8168 driver for Linux
-Summary(pl):	Sterownik dla Linuksa do kart RTL8111B/RTL8168B/RTL8111/RTL8168
+Summary(pl.UTF-8):   Sterownik dla Linuksa do kart RTL8111B/RTL8168B/RTL8111/RTL8168
 Name:		kernel%{_alt_kernel}-net-r1000
 Version:	1.05
 Release:	%{_rel}@%{_kernel_ver_str}
@@ -34,13 +34,13 @@ BuildRoot:	%{tmpdir}/%{_name}-%{version}-root-%(id -u -n)
 This package contains the Linux driver for the Realtek
 family of RTL8111B/RTL8168B/RTL8111/RTL8168 Ethernet network adapters.
 
-%description -l pl
+%description -l pl.UTF-8
 Ten pakiet zawiera sterownik dla Linuksa do kart sieciowych
 Realtek RTL8111B/RTL8168B/RTL8111/RTL8168.
 
 %package -n kernel%{_alt_kernel}-smp-net-r1000
 Summary:	RTL8111B/RTL8168B/RTL8111/RTL8168 driver for Linux SMP
-Summary(pl):	Sterownik dla Linuksa SMP do kart RTL8111B/RTL8168B/RTL8111/RTL8168
+Summary(pl.UTF-8):   Sterownik dla Linuksa SMP do kart RTL8111B/RTL8168B/RTL8111/RTL8168
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
@@ -54,7 +54,7 @@ Provides:	kernel(r1000)
 This package contains the Linux SMP driver for the Realtek
 family of RTL8111B/RTL8168B/RTL8111/RTL8168 Ethernet network adapters.
 
-%description -n kernel%{_alt_kernel}-smp-net-r1000 -l pl
+%description -n kernel%{_alt_kernel}-smp-net-r1000 -l pl.UTF-8
 Ten pakiet zawiera sterownik dla Linuksa SMP do kart sieciowych
 Realtek RTL8111B/RTL8168B/RTL8111/RTL8168.
 
