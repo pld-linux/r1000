@@ -4,6 +4,7 @@
 # - check patch0 MODULE_PARM (...) -> module_param (...)
 # Conditional build:
 %bcond_without	dist_kernel	# allow non-distribution kernel
+%bcond_without	up		# don't build UP module
 %bcond_without	smp		# don't build SMP module
 %bcond_with	verbose		# verbose build (V=1)
 #
@@ -85,10 +86,12 @@ rm -rf $RPM_BUILD_ROOT
 %postun -n kernel%{_alt_kernel}-smp-net-r1000
 %depmod %{_kernel_ver}smp
 
+%if %{with up} || %{without dist_kernel}
 %files -n kernel%{_alt_kernel}-net-r1000
 %defattr(644,root,root,755)
 %doc README release_note.txt
 /lib/modules/%{_kernel_ver}/kernel/drivers/net/*
+%endif
 
 %if %{with smp} && %{with dist_kernel}
 %files -n kernel%{_alt_kernel}-smp-net-r1000
