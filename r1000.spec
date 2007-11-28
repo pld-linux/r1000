@@ -6,28 +6,41 @@
 %bcond_without	dist_kernel	# allow non-distribution kernel
 %bcond_with	verbose		# verbose build (V=1)
 #
-%define		_name	kernel-net-r1000
 %define		_rel	1
 Summary:	RTL8111B/RTL8168B/RTL8111/RTL8168 driver for Linux
 Summary(pl.UTF-8):	Sterownik dla Linuksa do kart RTL8111B/RTL8168B/RTL8111/RTL8168
-Name:		kernel%{_alt_kernel}-net-r1000
+Name:		r1000
 Version:	1.05
-Release:	%{_rel}@%{_kernel_ver_str}
+Release:	%{_rel}
 License:	GPL v2
 Group:		Base/Kernel
 Source0:	ftp://202.65.194.211/cn/nic/r1000_v%{version}.tgz
 # Source0-md5:	4120f50c55b38b67e5dc741f86a1923a
-# Patch0:		%{_name}-module_parm.patch
+# Patch0:		%{name}-module_parm.patch
 URL:		http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&PNid=5&PFid=5&Level=5&Conn=4&DownTypeID=3&GetDown=false#RTL8111B/RTL8168B/RTL8111/RTL8168
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%package -n kernel%{_alt_kernel}-net-r1000
+Summary:	RTL8111B/RTL8168B/RTL8111/RTL8168 driver for Linux
+Summary(pl.UTF-8):	Sterownik dla Linuksa do kart RTL8111B/RTL8168B/RTL8111/RTL8168
+Release:	%{_rel}@%{_kernel_ver_str}
+Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
 %if %{with dist_kernel}
 %requires_releq_kernel
 Requires(postun):	%releq_kernel
 %endif
 Provides:	kernel(r1000)
-BuildRoot:	%{tmpdir}/%{_name}-%{version}-root-%(id -u -n)
+
+%description -n kernel%{_alt_kernel}-net-r1000
+This package contains the Linux driver for the Realtek
+family of RTL8111B/RTL8168B/RTL8111/RTL8168 Ethernet network adapters.
+
+%description -n kernel%{_alt_kernel}-net-r1000 -l pl.UTF-8
+Ten pakiet zawiera sterownik dla Linuksa do kart sieciowych
+Realtek RTL8111B/RTL8168B/RTL8111/RTL8168.
 
 %description
 This package contains the Linux driver for the Realtek
@@ -46,7 +59,6 @@ Realtek RTL8111B/RTL8168B/RTL8111/RTL8168.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %install_kernel_modules -m src/r1000 -d kernel/drivers/net
 
 %clean
