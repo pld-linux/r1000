@@ -1,6 +1,4 @@
-#
 # TODO:
-# - change filename to r1000.spec in CVS
 # - check patch0 MODULE_PARM (...) -> module_param (...)
 # Conditional build:
 %bcond_without	dist_kernel	# allow non-distribution kernel
