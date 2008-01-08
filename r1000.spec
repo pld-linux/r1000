@@ -3,7 +3,7 @@
 %bcond_without	dist_kernel	# allow non-distribution kernel
 %bcond_with	verbose		# verbose build (V=1)
 #
-%define		rel	2
+%define		rel	3
 Summary:	RTL8111B/RTL8168B/RTL8111/RTL8168 driver for Linux
 Summary(pl.UTF-8):	Sterownik dla Linuksa do kart RTL8111B/RTL8168B/RTL8111/RTL8168
 Name:		r1000
