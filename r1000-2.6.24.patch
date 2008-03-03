@@ -1,0 +1,57 @@
+--- r1000_v1.07/src/r1000_n.c.orig	2008-03-03 00:00:16.243214775 +0100
++++ r1000_v1.07/src/r1000_n.c	2008-03-03 00:02:21.734589684 +0100
+@@ -305,7 +305,9 @@ static int __devinit r1000_init_board (s
+ 		return -ENOMEM;
+ 	}
+ 
++#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,24)
+ 	SET_MODULE_OWNER (netdev);
++#endif
+ 
+ #if LINUX_VERSION_CODE > KERNEL_VERSION(2,5,0)
+ 	SET_NETDEV_DEV (netdev, &pdev->dev);
+@@ -756,8 +758,11 @@ static int r1000_open (struct net_device
+ 		printk("%s: Gigabit driver open failed.\n", netdev->name );
+ 		return -ENOMEM;
+ 	}
+-
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
++	retval = request_irq (netdev->irq, r1000_interrupt, IRQF_SHARED, netdev->name, netdev);
++#else
+ 	retval = request_irq (netdev->irq, r1000_interrupt, SA_SHIRQ, netdev->name, netdev);
++#endif
+ 	if (retval) {
+ 		return retval;
+ 	}
+--- r1000_v1.07/src/r1000_ioctl.c~	2008-03-03 00:09:19.000000000 +0100
++++ r1000_v1.07/src/r1000_ioctl.c	2008-03-03 01:18:58.418670395 +0100
+@@ -92,7 +92,11 @@ static int ethtool_set_settings(struct n
+ }
+ 
+ int ethtool_ioctl(struct ifreq *ifr){
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,24)
++	struct net_device *netdev=__dev_get_by_name(&init_net, ifr->ifr_name);
++#else
+ 	struct net_device *netdev=__dev_get_by_name(ifr->ifr_name);
++#endif
+ 	void *useraddr=(void *)ifr->ifr_data;
+ 	uint32_t ethcmd;
+ 
+--- r1000_v1.07/src/r1000_n.c~	2008-03-03 01:19:34.000000000 +0100
++++ r1000_v1.07/src/r1000_n.c	2008-03-03 01:41:49.824416530 +0100
+@@ -72,9 +72,15 @@ static struct pci_device_id r1000_pci_tb
+ MODULE_DEVICE_TABLE (pci, r1000_pci_tbl);
+ MODULE_AUTHOR ("Realtek");
+ MODULE_DESCRIPTION ("Linux device driver for Realtek Ethernet Controllers");
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,16)
++module_param_array(speed, int, NULL, 0444);
++module_param_array(duplex, int, NULL, 0444);
++module_param_array(autoneg, int, NULL, 0444);
++#else
+ MODULE_PARM (speed, "1-" __MODULE_STRING(MAX_UNITS) "i");
+ MODULE_PARM (duplex, "1-" __MODULE_STRING(MAX_UNITS) "i");
+ MODULE_PARM (autoneg, "1-" __MODULE_STRING(MAX_UNITS) "i");
++#endif
+ MODULE_LICENSE("GPL");
+ 
+ 
