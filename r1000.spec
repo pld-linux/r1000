@@ -17,9 +17,9 @@ Version:	1.07
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
-Source0:	 http://ipcop.ath.cx/r1000_v1.07.tgz
+Source0:	 http://ipcop.ath.cx/r1000_v%{version}.tgz
 # Source0-md5:	bbe1803ca4e4c4a5b88fa24d9d0b3911
-# Patch0:		%{_name}-module_parm.patch
+Patch0:		%{_name}-make.patch
 URL:		http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&PNid=5&PFid=5&Level=5&Conn=4&DownTypeID=3&GetDown=false#RTL8111B/RTL8168B/RTL8111/RTL8168
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.7}
 BuildRequires:	rpmbuild(macros) >= 1.330
@@ -61,7 +61,7 @@ Realtek RTL8111B/RTL8168B/RTL8111/RTL8168.
 
 %prep
 %setup -q -n r1000_v%{version}
-#%%patch0 -p1
+%patch0 -p1
 
 %build
 %build_kernel_modules -m r1000 -C src
@@ -89,13 +89,13 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with up} || %{without dist_kernel}
 %files -n kernel%{_alt_kernel}-net-r1000
 %defattr(644,root,root,755)
-%doc README release_note.txt
+%doc readme release_note.txt
 /lib/modules/%{_kernel_ver}/kernel/drivers/net/*
 %endif
 
 %if %{with smp} && %{with dist_kernel}
 %files -n kernel%{_alt_kernel}-smp-net-r1000
 %defattr(644,root,root,755)
-%doc README release_note.txt
+%doc readme release_note.txt
 /lib/modules/%{_kernel_ver}smp/kernel/drivers/net/*
 %endif
