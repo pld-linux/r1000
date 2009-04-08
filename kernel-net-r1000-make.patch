@@ -1,0 +1,24 @@
+--- r1000_v1.07.orig/src/Makefile	2007-06-22 03:38:18.000000000 +0200
++++ r1000_v1.07/src/Makefile	2009-04-08 17:44:51.000000000 +0200
+@@ -28,7 +28,11 @@
+ KFLAG          := 2$(shell echo $(KVER) | sed -ne 's/^2\.[4]\..*/4/p')x
+ 
+ modules:
++ifeq ($(KFLAG),24x)
+ 	$(MAKE) -f Makefile_linux24x
++else
++	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD)/src modules
++endif
+ 	strip --strip-debug r1000.$(KEXT)
+ 
+ clean:
+@@ -37,3 +41,9 @@
+ 
+ install:
+ 	install -m 644 -c r1000.$(KEXT) $(KMISC)
++
++
++ifneq ($(KFLAG),24x)
++r1000-objs := r1000_n.o r1000_ioctl.o
++obj-m += r1000.o
++endif
