@@ -13,12 +13,12 @@
 Summary:	RTL8111B/RTL8168B/RTL8111/RTL8168 driver for Linux
 Summary(pl.UTF-8):	Sterownik dla Linuksa do kart RTL8111B/RTL8168B/RTL8111/RTL8168
 Name:		kernel%{_alt_kernel}-net-r1000
-Version:	1.05
+Version:	1.07
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
-Source0:	ftp://202.65.194.211/cn/nic/r1000_v%{version}.tgz
-# Source0-md5:	4120f50c55b38b67e5dc741f86a1923a
+Source0:	 http://ipcop.ath.cx/r1000_v1.07.tgz
+# Source0-md5:	bbe1803ca4e4c4a5b88fa24d9d0b3911
 # Patch0:		%{_name}-module_parm.patch
 URL:		http://www.realtek.com.tw/downloads/downloadsView.aspx?Langid=1&PNid=5&PFid=5&Level=5&Conn=4&DownTypeID=3&GetDown=false#RTL8111B/RTL8168B/RTL8111/RTL8168
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.7}
